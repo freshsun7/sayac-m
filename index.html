@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sevgili Günü Sayacı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffb3c1 50%, #ffc0cb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-attachment: fixed;
+        }
+
+        .background-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bg-heart {
+            position: absolute;
+            color: #8b1538;
+            font-size: 40px;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #8b1538;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .days-container {
+            margin: 40px 0;
+        }
+
+        .days-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #8b1538;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .days-label {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .hearts-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .heart {
+            font-size: 3em;
+            animation: sparkle 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px rgba(139, 21, 56, 0.5));
+        }
+
+        .heart:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .heart:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .heart:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .heart:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .heart:nth-child(6) {
+            animation-delay: 1s;
+        }
+
+        .heart:nth-child(7) {
+            animation-delay: 1.2s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.7;
+            }
+        }
+
+        .spotify-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .message {
+            color: #8b1538;
+            font-size: 1.1em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .days-number {
+                font-size: 2.5em;
+            }
+
+            .heart {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-hearts" id="bgHearts"></div>
+
+    <div class="container">
+        <h1>💕 Sevgili Günü Sayacı 💕</h1>
+        
+        <div class="days-container">
+            <div class="days-number" id="daysCount">0</div>
+            <div class="days-label">gündür birlikte</div>
+        </div>
+
+        <div class="hearts-display">
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+            <div class="heart">💗</div>
+        </div>
+
+        <div class="spotify-container">
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/0EfTZJ0iGmxYNQFGZn6Dhv?utm_source=generator&si=b6e20ccf9d894682" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="message">Seninle her gün daha güzel ❤️</div>
+    </div>
+
+    <script>
+        // Başlangıç tarihini buraya yazın (YYYY-AA-GG formatında)
+        const startDate = new Date('2024-01-15'); // Tarih değiştirin
+
+        function calculateDays() {
+            const today = new Date();
+            const timeDiff = today - startDate;
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            document.getElementById('daysCount').textContent = days;
+        }
+
+        function generateBackgroundHearts() {
+            const container = document.getElementById('bgHearts');
+            const heartCount = 20;
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'bg-heart';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // İlk yüklemede çalıştır
+        calculateDays();
+        generateBackgroundHearts();
+
+        // Her gün güncellensin
+        setInterval(calculateDays, 1000);
+    </script>
+</body>
+</html>
